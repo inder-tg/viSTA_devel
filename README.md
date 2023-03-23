@@ -7,10 +7,10 @@ Here we share a prototype of viSTA-Mexico, the next version of viSTA.
 
 ## Disclaimer
 
-  - R version 4.2.1 was used to develop this version of viSTA-Mexico
+  - ```R version 4.2.1``` was used to develop this version of viSTA-Mexico
   
-  - Except ```shiny``` and ```dplyr``` all version's packages used in this 
-  version are compatible with R version 4.2.1
+  - Except shiny and dplyr all packages' version used here are compatible 
+  with ```R version 4.2.1```
   
   - ```shiny 1.7.1``` is required
   
