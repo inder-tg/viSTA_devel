@@ -92,10 +92,26 @@ server <- function(input, output, session){
       tabBox(
         id = "box_map",
         width = NULL,
-        height = 620,
+        height = 690,
         tabPanel(
           title = "Etnoterritory - leaflet",
-          # htmlOutput("patients_total"),
+          div(
+            style = "position: absolute; left: 0.5em; bottom: 0.5em;",
+            dropdown(
+              fileInput(
+                inputId = "add_geometry",
+                label = "Add a geometry",
+                accept = c(".shp", ".dbf", ".shx", ".prj"),
+                multiple = TRUE,
+                width = NULL,
+                buttonLabel = "Browse...",
+                placeholder = ""
+              ),
+              size = "xs",
+              icon = icon("search-plus", class="opt", verify_fa=FALSE),
+              up = TRUE
+            )
+          ),
           withSpinner(
             # DT::dataTableOutput("table_pat_all"),
             leafletOutput("makeMap", height = 600),
@@ -108,8 +124,8 @@ server <- function(input, output, session){
     )
   })
   
-  output$makeMap <- renderLeaflet({
-    leaflet(data = poligonio$df) %>%
+  getPointsLeaflet <- function(){
+    leaflet(data=poligonio$df) %>%
       addTiles("Add Map Title Here") %>%
       addProviderTiles("Esri.WorldImagery") %>%
       addCircleMarkers(
@@ -118,13 +134,65 @@ server <- function(input, output, session){
         radius = 10,
         fillOpacity = 1,
         popup = paste("<b>lon: </b>", round(poligonio$df$Longitude, digits = 4), "<br>",
-                      "<b>lat: </b>", round(poligonio$df$Latitude, digits = 4), "<br>",
-                      "<b>PIXEL: </b>", poligonio$df$SiteID, "<br>",
-                      "Please, press <br> <font color=Green>Graphs</font> above"),
+                      "<b>lat: </b>", round(poligonio$df$Latitude, digits = 4), "<br>", 
+                      "Please, press <br> Graphs bar above"),
         clusterOptions = markerClusterOptions())
-    # fillOpacity = 1, popup = ~htmlEscape(SiteID))
-    
+  }
+  
+  initialPlot <- reactiveValues(doPlot=FALSE)
+  
+  observeEvent(input$add_geometry, {
+    initialPlot$doPlot <- TRUE
   })
+  
+  getPolygonLeaflet <- reactive({
+    inFiles <- input$add_geometry$datapath
+    dirFiles <- unique(dirname(inFiles))
+    outFiles <- file.path(dirFiles, input$add_geometry$name)
+    name <- strsplit(input$add_geometry$name[1], "\\.")[[1]][1]
+    purrr::walk2(inFiles, outFiles, ~file.rename(.x,.y))
+    shp <- shapefile( file.path(dirFiles, paste0(name, ".shp")) )
+    
+    shp_lng_lat <- spTransform(shp, CRS("+proj=longlat +datum=WGS84 +no_defs"))
+    shp_lng_lat
+  })
+  
+  drawMap <- reactive({
+    pointsMap <- getPointsLeaflet()
+    
+    if(initialPlot$doPlot == FALSE){
+      toMap <- pointsMap
+    } else {
+      polygonMap <- getPolygonLeaflet()
+      toMap <- pointsMap %>% addPolygons(data=polygonMap, weight = 5, 
+                                         col = "red")
+    }
+    
+    toMap
+  })
+  
+  output$makeMap <- renderLeaflet({
+    drawMap()
+  })
+
+  
+  # output$makeMap <- renderLeaflet({
+  #   leaflet(data = poligonio$df) %>%
+  #     addTiles("Add Map Title Here") %>%
+  #     addProviderTiles("Esri.WorldImagery") %>%
+  #     addCircleMarkers(
+  #       lng = ~Longitude,
+  #       lat = ~Latitude,
+  #       radius = 10,
+  #       fillOpacity = 1,
+  #       popup = paste("<b>lon: </b>", round(poligonio$df$Longitude, digits = 4), "<br>",
+  #                     "<b>lat: </b>", round(poligonio$df$Latitude, digits = 4), "<br>",
+  #                     "<b>PIXEL: </b>", poligonio$df$SiteID, "<br>",
+  #                     "Please, press <br> <font color=Green>Graphs</font> above"),
+  #       clusterOptions = markerClusterOptions())
+  #   # fillOpacity = 1, popup = ~htmlEscape(SiteID))
+  #   
+  # })
   
   # observeEvent(input$makeMap_click$lng,
   #              {print(input$makeMap_click$lng); print(input$makeMap_click$lat)})
