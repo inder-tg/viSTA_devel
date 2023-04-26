@@ -14,9 +14,9 @@ Here we share a prototype of viSTA-Mexico, the next version of viSTA.
   
   - ```shiny 1.7.1``` is required
   
-  - ```dplyr 1.0.9``` is required
+  - ```dplyr 1.1.0``` is required
 
-  - The package ```sephora``` is distributed upon request
+  - Package ```sephora``` is required and distributed upon request
 
 
 
