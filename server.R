@@ -100,7 +100,7 @@ server <- function(input, output, session){
             dropdown(
               fileInput(
                 inputId = "add_geometry",
-                label = "Add a geometry",
+                label = "Add a geometry (all .dbf, .prj, .shp, .shx)",
                 accept = c(".shp", ".dbf", ".shx", ".prj"),
                 multiple = TRUE,
                 width = NULL,
