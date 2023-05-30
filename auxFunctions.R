@@ -1,9 +1,11 @@
 
 install_neededPackages <- function(package, version){
+  
   if( system.file(package = package) != "" ){
-    if(packageVersion("package") != version){
+    if( packageVersion(pkg=package) == version ){
+      # remove.packages(package)
       require(remotes)
-      install_version(pacakge, version=version,
+      install_version(package=package, version=version,
                       repos = "http://cran.us.r-project.org")
     }
   }
