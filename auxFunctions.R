@@ -15,27 +15,6 @@ install_neededPackages(package = "fontawesome", version = "0.2.2")
 install_neededPackages(package = "htmltools", version = "0.5.2")
 install_neededPackages(package = "shiny", version = "1.7.1")
 
-library(shiny) # How we create the app.
-library(shinycssloaders) # Adds spinner icon to loading outputs.
-library(shinydashboard) # The layout used for the ui page.
-library(leaflet) # Map making. Leaflet is more supported for shiny.
-library(dplyr) # Used to filter data for plots.
-library(raster)
-library(leafem)
-library(htmltools)
-library(geoTS)
-library(sephora)
-library(sta)
-library(rintrojs)
-library(shinyjs)
-library(shinyBS)
-library(ggplot2)
-library(ggnewscale)
-library(tidyverse)
-library(tidyquant)
-library(shinyWidgets)
-
-
 fluid_design <- function(id, w, x, y, z) {
   fluidRow(
     div(

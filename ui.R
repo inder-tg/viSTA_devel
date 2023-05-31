@@ -1,4 +1,5 @@
 
+source(paste0(getwd(), "/auxPackages.R"))
 source(paste0(getwd(), "/auxFunctions.R"))
 source(paste0(getwd(), "/auxObjects.R"))
 
