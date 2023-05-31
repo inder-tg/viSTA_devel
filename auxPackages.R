@@ -6,7 +6,7 @@ neededPackages <- c("shiny", "shinycssloaders", "shinydashboard",
                     "ggplot2", "ggnewscale", "tidyverse",
                     "tidyquant", "shinyWidgets")
 
-packagesToInstall <- listPackages[!(neededPackages %in% installed.packages()[,"Package"])]
+packagesToInstall <- neededPackages[!(neededPackages %in% installed.packages()[,"Package"])]
 
 if(length(packagesToInstall)){
   for( i in 1:length(packagesToInstall) ){
