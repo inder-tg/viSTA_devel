@@ -16,7 +16,7 @@ Here we share a prototype of viSTA-Mexico, the next version of viSTA.
   
   - ```dplyr 1.1.0``` is required
 
-  - Package ```sephora``` is required and distributed upon request
+  - **NEWS:** Package ```sephora``` version ```0.1.18``` is now attached 
 
 
 
