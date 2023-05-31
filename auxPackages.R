@@ -4,11 +4,12 @@ neededPackages <- c("shiny", "shinycssloaders", "shinydashboard",
                     "htmltools", "geoTS", "sta",
                     "rintrojs", "shinyjs","shinyBS",
                     "ggplot2", "ggnewscale", "tidyverse",
-                    "tidyquant", "shinyWidgets")
+                    "tidyquant", "shinyWidgets",
+                    "dtwclust", "eBsc", "spiralize", "rootSolve")
 
 packagesToInstall <- neededPackages[!(neededPackages %in% installed.packages()[,"Package"])]
 
-if(length(packagesToInstall)){
+if( length(packagesToInstall) ){
   for( i in 1:length(packagesToInstall) ){
     message("Installing package", packagesToInstall[i], "\n")
     install.packages(packagesToInstall[i], dependencies = TRUE)
